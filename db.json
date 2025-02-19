@@ -1,0 +1,401 @@
+{
+  "myAdmin": [
+    {
+      "id": "1",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin"
+    }
+  ],
+  "users": [
+    {
+      "id": "e0df",
+      "name": "abin prasanth",
+      "email": "abinprasanth777@gmail.com",
+      "password": "1234",
+      "confirmPassword": "1234",
+      "isBlocked": false,
+      "cart": [
+        {
+          "id": "2",
+          "category": "men",
+          "name": "Men's Sneakers",
+          "image": "/men's/men's sneakers (2).jpg",
+          "description": " Comfortable and stylish casual wear",
+          "primeColor": "black",
+          "sizes": [
+            "6",
+            "7",
+            "8",
+            "9"
+          ],
+          "price": 2000,
+          "selectedSize": "6",
+          "quantity": 1
+        }
+      ],
+      "orders": []
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "category": "men",
+      "name": "Men's Premium Sneakers",
+      "image": "/men's/men's premium sneakers.jpg",
+      "description": "premium sneakers running and casual wear",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "2",
+      "category": "men",
+      "name": "Men's Sneakers",
+      "image": "/men's/men's sneakers (2).jpg",
+      "description": " Comfortable and stylish casual wear",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "3",
+      "category": "women",
+      "name": "Women's Casual",
+      "image": "/women's/women's casual (4).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "4",
+      "category": "women",
+      "name": "Women's Styletto",
+      "image": "/women's/women's styletto (2).jpg",
+      "description": "Elegant high heels for special occasions",
+      "primeColor": "white",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "5",
+      "category": "women",
+      "name": "Women's Sneakers",
+      "image": "/women's/women's sneakers (2).jpg",
+      "description": " Comfortable and stylish for athletic activities, casual wear",
+      "primeColor": "pink",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "6",
+      "category": "men",
+      "name": "Men's Ankle Boots",
+      "image": "/men's/men's ankle boots.jpg",
+      "description": " Short boots, trendy and comfortable",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "7",
+      "category": "women",
+      "name": "Women's Sneakers",
+      "image": "/women's/women's sneakers.jpg",
+      "description": "Comfortable and stylish for athletic activities, casual wear",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "8",
+      "category": "women",
+      "name": "Women's Ankle Boots",
+      "image": "/women's/women's ankle boots.jpg",
+      "description": " long heel boots, trendy and comfortable",
+      "primeColor": "black,gold",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "9",
+      "category": "men",
+      "name": "Men's Boots",
+      "image": "/men's/men's boots.jpg",
+      "description": "Durable and great for outdoor or cold weather",
+      "primeColor": "green",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "10",
+      "category": "women",
+      "name": "Women's Styletto",
+      "image": "/women's/women's styletto.jpg",
+      "description": "Elegant high heels for special occasions",
+      "primeColor": "golden",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "11",
+      "category": "men",
+      "name": "Men's Casual",
+      "image": "/men's/men's casual (3).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "pistachio",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "12",
+      "category": "women",
+      "name": "Women's Casual",
+      "image": "/women's/women's casual.jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "lavender",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "13",
+      "category": "men",
+      "name": "Men's Casual",
+      "image": "/men's/men's casual black edition.jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "14",
+      "category": "women",
+      "name": "Women's Sneakers",
+      "image": "/women's/women's sneakers (3).jpg",
+      "description": "Comfortable and stylish for athletic activities, casual wear",
+      "primeColor": "black,gold",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "15",
+      "category": "men",
+      "name": "Men's Sneakers",
+      "image": "/men's/men's sneakers (3).jpg",
+      "description": "Comfortable and stylish for athletic activities, casual wear",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "16",
+      "category": "men",
+      "name": "Men's Sneakers",
+      "image": "/men's/men's sneakers (4).jpg",
+      "description": "Comfortable and stylish for athletic activities, casual wear",
+      "primeColor": "red",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "17",
+      "category": "men",
+      "name": "Men's Casual",
+      "image": "/men's/men's casual (2).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "18",
+      "category": "women",
+      "name": "Women's Boots",
+      "image": "/women's/women's boots.jpg",
+      "description": "Durable and great for outdoor or cold weather",
+      "primeColor": "navyblue",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "19",
+      "category": "men",
+      "name": "Men's Sneakers",
+      "image": "/men's/men's sneakers.jpg",
+      "description": "Comfortable and stylish for casual wear",
+      "primeColor": "black",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "20",
+      "category": "women",
+      "name": "Women's Casual",
+      "image": "/women's/women's casual (2).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "skyblue",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "21",
+      "category": "women",
+      "name": "Women's Casual",
+      "image": "/women's/women's casual (3).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "white",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "22",
+      "category": "men",
+      "name": "Men's Casual",
+      "image": "/men's/men's casual.jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "white",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "23",
+      "category": "women",
+      "name": "Women's Sneakers",
+      "image": "/women's/women's sneakers (4).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "babyblue",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    },
+    {
+      "id": "24",
+      "category": "men",
+      "name": "Men's Casual",
+      "image": "/men's/men's casual (4).jpg",
+      "description": "Everyday shoes, easy and versatile",
+      "primeColor": "white",
+      "sizes": [
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "price": 2000
+    }
+  ]
+}
