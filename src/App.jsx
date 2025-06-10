@@ -15,6 +15,7 @@ import OrderInvoice from "./components3/OrderInvoice";
 import { CartProvider } from "./components3/CartContext";
 import ProfilePage from "./components3/ProfilePage";
 import OrderHistory from "./components3/OrderHistory";
+import Footer from "./components3/Footer";
 import { UserProvider } from "./components1/UserContext";
 import AdminDashBoard from "./components4/AdminDashBoard";
 import AdminProductsManagement from "./components4/AdminProductsManagement";
@@ -26,19 +27,27 @@ import { ToastContainer } from 'react-toastify'; // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
 
 const LayoutWithNavbar = () => (
-  <> <Navbar /> <Outlet /> </> 
+  <div className="flex flex-col min-min-h-screen">
+    <Navbar />
+      <Outlet />
+    <Footer />
+  </div>
 );
 
 const LayoutWithoutNavbar = () => (
-  <>{<Outlet />}</>
+  <>
+    {<Outlet />}
+  </>
 );
+
+
 
 function App() {
   return (
     <UserProvider>
       <CartProvider>
         <Router>
-          <ToastContainer /> 
+          <ToastContainer />
 
           <Routes>
             <Route element={<LayoutWithNavbar />}>

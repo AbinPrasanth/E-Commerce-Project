@@ -1,7 +1,5 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from './HeroSection';
-import { FaTruckFast, FaHeadset, FaMoneyCheck, FaFacebookF, FaXTwitter, FaInstagram, FaWhatsapp } from 'react-icons/fa6';
 
 
 const Home = () => {
@@ -51,7 +49,7 @@ const Home = () => {
           <div className="w-2/4 px-10 pl-5 mb-10">
             <img
               className="object-cover"
-              src= "public\shoeMaterial\WhatsApp Image 2025-02-10 at 18.13.52_742f5f61.jpg"
+              src="public\shoeMaterial\WhatsApp Image 2025-02-10 at 18.13.52_742f5f61.jpg"
               alt="Selected materials"
             />
           </div>
@@ -86,43 +84,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-
-
-      <footer className="bg-gray-200 shadow-md text-gray-700 text-center p-4 py-20">
-
-      <div className="flex flex-wrap justify-center items-center gap-9 md:gap-14 lg:gap-20 py-16">
-      <div>
-            <p className='font-bold text-2xl text-gray-700'>Secure Payment</p>
-            <div className='ml-7'>
-              <FaMoneyCheck className='text-gray-500 text-5xl' />
-            </div>
-          </div>
-
-          <div>
-            <p className='font-bold text-2xl text-gray-700'>Fast Delivery</p>
-            <div className='ml-7'>
-              <FaTruckFast className='text-gray-500 text-5xl' />
-            </div>
-          </div>
-
-          <div>
-            <p className='font-bold text-2xl text-gray-700'>Help Line</p>
-            <div className='ml-4 mt-2'>
-              <FaHeadset className='text-gray-500 text-5xl' />
-            </div>
-          </div>
-        </div>
-
-        <div className='  flex gap-10 ml-9 text-gray-800 text-3xl '>
-          <FaFacebookF />
-          <FaXTwitter />
-          <FaInstagram />
-          <FaWhatsapp />
-        </div>
-        <p>&copy; 2025 Golden Phoenix. All rights reserved.</p>
-      </footer>
-
     </div>
   );
 };
