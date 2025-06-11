@@ -19,7 +19,7 @@ const Registration = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      fullName: '',
       email: '',
       password: '', 
       confirmPassword: '',
@@ -73,7 +73,7 @@ const Registration = () => {
             type="text"
             name="name"
             placeholder="Full Name"
-            value={formik.values.name} 
+            value={formik.values.fullName} 
             onChange={formik.handleChange} 
             className="w-full p-2 border border-gray-300 rounded-md"
           />
