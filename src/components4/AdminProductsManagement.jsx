@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavPanel from "./NavPanel";
 
+const getAuthHeader = () => {
+    const token = localStorage.getItem("token");
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+};
+
 const AdminProductsManagement = () => {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
@@ -15,17 +24,19 @@ const AdminProductsManagement = () => {
     price: ""
   });
   const [editMode, setEditMode] = useState(false);
+  const [expandedProductId, setExpandedProductId] = useState(null);
+  const [productDetails, setProductDetails] = useState(null);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get("https://localhost:7072/api/Product");
+      setProducts(res.data.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/products");
-        setProducts(res.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
     fetchProducts();
   }, []);
 
@@ -37,52 +48,6 @@ const AdminProductsManagement = () => {
   const handleSizesChange = (e) => {
     const sizes = e.target.value.split(",").map((size) => size.trim());
     setNewProduct((prev) => ({ ...prev, sizes }));
-  };
-
-  const addProduct = async () => {
-    if (
-      !newProduct.category ||
-      !newProduct.name ||
-      !newProduct.image ||
-      !newProduct.description ||
-      !newProduct.primeColor ||
-      !newProduct.sizes.length ||
-      !newProduct.price
-    ) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    try {
-      const res = await axios.post("http://localhost:5000/products", newProduct);
-      setProducts([...products, res.data]);
-      resetForm();
-    } catch (error) {
-      console.error("Error adding product:", error);
-    }
-  };
-
-  const updateProduct = async () => {
-    try {
-      const res = await axios.put(`http://localhost:5000/products/${newProduct.id}`, newProduct);
-      setProducts(
-        products.map((product) =>
-          product.id === newProduct.id ? { ...product, ...res.data } : product
-        )
-      );
-      resetForm();
-    } catch (error) {
-      console.error("Error updating product:", error);
-    }
-  };
-
-  const deleteProduct = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/products/${id}`);
-      setProducts(products.filter((product) => product.id !== id));
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
   };
 
   const resetForm = () => {
@@ -99,9 +64,99 @@ const AdminProductsManagement = () => {
     setEditMode(false);
   };
 
+  const addProduct = async () => {
+    if (
+      !newProduct.category ||
+      !newProduct.name ||
+      !newProduct.description ||
+      !newProduct.primeColor ||
+      !newProduct.sizes.length ||
+      !newProduct.price
+    ) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("Category", newProduct.category);
+      formData.append("Name", newProduct.name);
+      formData.append("Description", newProduct.description);
+      formData.append("PrimeColor", newProduct.primeColor);
+      newProduct.sizes.forEach((size, index) => {
+        formData.append(`Sizes[${index}]`, size);
+      });
+      formData.append("Price", newProduct.price);
+      formData.append("Image", newProduct.image);
+
+      await axios.post("https://localhost:7072/api/Product", formData, {
+        headers: {...getAuthHeader().headers, "Content-Type": "multipart/form-data" }
+      });
+
+      fetchProducts();
+      resetForm();
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+
+  const updateProduct = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("Category", newProduct.category);
+      formData.append("Name", newProduct.name);
+      formData.append("Description", newProduct.description);
+      formData.append("PrimeColor", newProduct.primeColor);
+      newProduct.sizes.forEach((size, index) => {
+        formData.append(`Sizes[${index}]`, size);
+      });
+      formData.append("Price", newProduct.price);
+      if (newProduct.image) {
+        formData.append("Image", newProduct.image);
+      }
+
+      await axios.put(`https://localhost:7072/api/Product/${newProduct.id}`, formData, {
+        headers: { ...getAuthHeader().headers, "Content-Type": "multipart/form-data" }
+      });
+
+      fetchProducts();
+      resetForm();
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`https://localhost:7072/api/Product/${id}`,getAuthHeader()
+);
+      setProducts(products.filter((product) => product.id !== id));
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
   const handleEdit = (product) => {
-    setNewProduct(product);
+    setNewProduct({ ...product, image: "" });
     setEditMode(true);
+  };
+
+  const toggleDetails = async (id) => {
+    if (expandedProductId === id) {
+      setExpandedProductId(null);
+      setProductDetails(null);
+    } else {
+      try {
+        const res = await axios.get(`https://localhost:7072/api/Product/${id}`);
+        setExpandedProductId(id);
+        setProductDetails(res.data.data);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      }
+    }
   };
 
   return (
@@ -130,11 +185,9 @@ const AdminProductsManagement = () => {
               className="border p-2 rounded"
             />
             <input
-              type="text"
+              type="file"
               name="image"
-              placeholder="Image Path"
-              value={newProduct.image}
-              onChange={handleInputChange}
+              onChange={(e) => setNewProduct((prev) => ({ ...prev, image: e.target.files[0] }))}
               className="border p-2 rounded"
             />
             <input
@@ -173,12 +226,12 @@ const AdminProductsManagement = () => {
           <div className="mt-4">
             <button
               onClick={editMode ? updateProduct : addProduct}
-              className="bg-blue-500 text-white px-4 py-2 mr-2 rounded"
+              className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 mr-2 rounded"
             >
               {editMode ? "Update Product" : "Add Product"}
             </button>
             {editMode && (
-              <button onClick={resetForm} className="bg-gray-500 text-white px-4 py-2 rounded ">
+              <button onClick={resetForm} className="bg-gray-500 text-white px-4 py-2 rounded">
                 Cancel
               </button>
             )}
@@ -198,25 +251,54 @@ const AdminProductsManagement = () => {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product.id}>
-                  <td className="border p-2">{product.name}</td>
-                  <td className="border p-2">{product.category}</td>
-                  <td className="border p-2">{product.price}</td>
-                  <td className="border p-2">
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="bg-green-500 text-white px-2 py-1 mr-2 rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteProduct(product.id)}
-                      className="bg-red-800 text-white px-2 py-1 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+                <React.Fragment key={product.id}>
+                  <tr>
+                    <td className="border p-2">{product.name}</td>
+                    <td className="border p-2">{product.category}</td>
+                    <td className="border p-2">₹{product.price}</td>
+                    <td className="border p-2">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="bg-green-700 hover:bg-green-500 text-white px-2 py-1 mr-2 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => deleteProduct(product.id)}
+                        className="bg-red-700 hover:bg-red-500 text-white px-2 py-1 mr-2 rounded"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => toggleDetails(product.id)}
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-2 py-1 rounded"
+                      >
+                        {expandedProductId === product.id ? "Hide" : "View"}
+                      </button>
+                    </td>
+                  </tr>
+
+                  {expandedProductId === product.id && productDetails && (
+                    <tr>
+                      <td colSpan="4" className="border p-4 bg-gray-100">
+                        <div className="flex gap-8">
+                          <img
+                            src={productDetails.imageUrl}
+                            alt={productDetails.name}
+                            className="w-40 h-40 object-cover rounded border"
+                          />
+                          <div>
+                            <p><strong>Name:</strong> {productDetails.name}</p>
+                            <p><strong>Description:</strong> {productDetails.description}</p>
+                            <p><strong>Prime Color:</strong> {productDetails.primeColor}</p>
+                            <p><strong>Sizes:</strong> {productDetails.sizes.join(", ")}</p>
+                            <p><strong>Price:</strong> ₹{productDetails.price}</p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
               ))}
             </tbody>
           </table>

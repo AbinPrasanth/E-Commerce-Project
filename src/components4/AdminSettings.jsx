@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import NavPanel from './NavPanel';
+
 
 const AdminSettings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -28,7 +30,7 @@ const AdminSettings = () => {
 
     try {
       // Fetch admin's current details
-      const response = await axios.get(`http://localhost:5000/myAdmin/1`);
+      const response = await axios.get(`http://localhost:7072/myAdmin/1`);
       const adminData = response.data;
 
       if (adminData.password !== currentPassword) {
@@ -37,7 +39,7 @@ const AdminSettings = () => {
       }
 
       // Update the admin's password
-      await axios.patch(`http://localhost:5000/myAdmin/1`, {
+      await axios.patch(`http://localhost:7072/myAdmin/1`, {
         password: newPassword,
       });
 
@@ -56,6 +58,8 @@ const AdminSettings = () => {
   };
 
   return (
+        <NavPanel>
+
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
       <h2 className="text-2xl font-bold mb-4">Change Admin Password</h2>
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
@@ -99,6 +103,7 @@ const AdminSettings = () => {
         </button>
       </form>
     </div>
+    </NavPanel>
   );
 };
 

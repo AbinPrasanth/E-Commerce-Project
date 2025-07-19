@@ -1,21 +1,18 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useUser } from "../components1/UserContext"; 
 
 const PrivateRoute = ({ children, requiredRole }) => {
-  // Get the logged-in user from local storage
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const { currentUser, isAuthenticated } = useUser();
 
-  if (!loggedInUser) {
-    // Redirect to login if not logged in
+  if (!isAuthenticated || !currentUser) {
     return <Navigate to="/login" />;
   }
 
-  if (requiredRole && loggedInUser.role !== requiredRole) {
-    // Redirect to home or "not authorized" if the role doesn't match
+  if (requiredRole && currentUser.role?.toLowerCase() !== requiredRole.toLowerCase()) {
     return <Navigate to="/" />;
   }
 
-  // Render the child component if all checks pass
   return children;
 };
 

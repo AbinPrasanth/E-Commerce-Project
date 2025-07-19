@@ -1,145 +1,136 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik'; 
-import axios from 'axios'; 
+import { useUser } from './UserContext';
+import { toast, Toaster } from 'sonner';
 
 const Registration = () => {
   const navigate = useNavigate();
-
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/users');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      return [];
-    }
-  };
+  const { registerUser } = useUser();
 
   const formik = useFormik({
     initialValues: {
       fullName: '',
       email: '',
-      password: '', 
+      password: '',
       confirmPassword: '',
-      isBlocked:false,
-      cart: [],
-      orders: [],
     },
 
     validate: (values) => {
-      const errors = {}; 
-
-      if (!values.name) errors.name = 'Name is required';
+      const errors = {};
+      if (!values.fullName) errors.fullName = 'Name is required';
       if (!values.email) errors.email = 'Email is required';
-      if (!values.password) errors.password = 'Password is required';
-      if (values.password !== values.confirmPassword) errors.confirmPassword = 'Passwords do not match';
-
+      if (!values.password) {
+        errors.password = 'Password is required';
+      } else if (values.password.length < 8) {
+        errors.password = 'Password must be at least 8 characters';
+      }
+      if (values.password !== values.confirmPassword) {
+        errors.confirmPassword = 'Passwords do not match';
+      }
       return errors;
     },
 
     onSubmit: async (values) => {
-      try {
-        const users = await fetchUsers();
+      const userData = {
+        fullName: values.fullName,
+        email: values.email,
+        password: values.password,
+      };
 
-        const existingUser = users.find((user) => user.email === values.email);
-        if (existingUser) {
-          alert('User with this email already exists');
-          return;
-        }
-
-        await axios.post('http://localhost:5000/users', values, {
-          headers: {
-            'Content-Type': 'application/json', 
-          },
-        });
-
-        navigate('/login');
-      } catch (error) {
-        console.error('Error registering user:', error); 
-        alert('Failed to register. Please try again later.'); 
+      const result = await registerUser(userData);
+      if (result.success) {
+        toast.success("Registration successful. You can now login.");
+        navigate("/login");
+      } else {
+        toast.error(result.error);
       }
-    },
+    }
   });
 
   return (
-    <div className="max-w-sm mx-auto p-4 mt-10 bg-white rounded-lg shadow-lg">
-      <h2 className="text-xl font-bold mb-4">Register</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 via-pink-500 to-blue-400 px-4">
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-lg backdrop-blur-md bg-white/20 border border-white/30">
+        <h2 className="text-2xl font-bold text-white text-center mb-6">Create Your Account</h2>
 
-      <form onSubmit={formik.handleSubmit}>
-        <div className="mb-3">
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={formik.values.fullName} 
-            onChange={formik.handleChange} 
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {formik.touched.name && formik.errors.name && (
-            <div className="text-red-500 text-sm mb-4">{formik.errors.name}</div>
-          )}
-        </div>
+        <form onSubmit={formik.handleSubmit} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              name="fullName"
+              placeholder="Full Name"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/60"
+            />
+            {formik.touched.fullName && formik.errors.fullName && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.fullName}</div>
+            )}
+          </div>
 
+          <div>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/60"
+            />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
+            )}
+          </div>
 
-        <div className="mb-3">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formik.values.email} 
-            onChange={formik.handleChange} 
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {formik.touched.email && formik.errors.email && (
-            <div className="text-red-500 text-sm mb-4">{formik.errors.email}</div>)}
-        </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/60"
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
+            )}
+          </div>
 
+          <div>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/60"
+            />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+              <div className="text-red-500 text-sm mt-1">{formik.errors.confirmPassword}</div>
+            )}
+          </div>
 
-        <div className="mb-3">
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formik.values.password} 
-            onChange={formik.handleChange} 
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {formik.touched.password && formik.errors.password && (
-            <div className="text-red-500 text-sm mb-4">{formik.errors.password}</div>)}
-        </div>
+          <button
+            type="submit"
+            className="w-full bg-white/80 text-blue-600 font-semibold py-2 rounded-md hover:bg-white transition duration-200"
+          >
+            Register
+          </button>
 
-
-        <div className="mb-3">
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formik.values.confirmPassword} 
-            onChange={formik.handleChange} 
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-            <div className="text-red-500 text-sm mb-4">{formik.errors.confirmPassword}</div>)}
-        </div>
-
-        <button
-          type="submit" 
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-        >
-          Register
-        </button>
-
-        <div className="mt-3 text-center">
-          <p>
-            Already have an account?{' '}
-            <Link to="/login" className="text-blue-500 hover:underline">
+          <div className="text-white text-center mt-4 text-sm">
+            Already have an account?{" "}
+            <Link to="/login" className="underline font-medium text-blue-600 hover:text-blue-100">
               Login
             </Link>
-          </p>
-        </div>
-      </form>
+          </div>
+        </form>
+
+        <Toaster position="top-right" richColors />
+      </div>
     </div>
   );
 };

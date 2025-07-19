@@ -1,107 +1,75 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
 
 const UserContext = createContext();
-
 export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
-  const [users, setUsers] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem("isAuthenticated", true) || null
-  });
   const [currentUser, setCurrentUser] = useState(() => {
-    const user = localStorage.getItem("user");
-    return user ? JSON.parse(user) : null;
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/users");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [token, setToken] = useState(() => localStorage.getItem("token") || null);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem("token"));
 
-    fetchUsers();
-
-
-
-
-    if (isAuthenticated && currentUser) {
-      const userExists = users.find((user) => user.email === currentUser.email);
-      if (userExists) {
-        setIsAuthenticated(true);
-        setCurrentUser(userExists);
-      }
-    }
-  }, [currentUser?.id]);
-
-
-  const registerUser = async (newUser) => {
+  const loginUser = async (email, password) => {
     try {
-      const response = await axios.post("http://localhost:5000/users", newUser, {
+      const res = await axios.post("https://localhost:7072/api/Auth/login", {
+        email,
+        password,
+      });
+
+      const { token, role, userId, email: userEmail, fullName } = res.data.data;
+
+      const userObj = { id: userId, role, email: userEmail, fullName };
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userObj));
+
+      setToken(token);
+      setCurrentUser(userObj);
+      setIsAuthenticated(true);
+
+      return { success: true, role }; // return role so the caller can redirect accordingly
+    } catch (error) {
+      console.error("Login error:", error.response?.data || error.message);
+      return { success: false, error: error.response?.data?.message || "Login failed" };
+    }
+  };
+
+  const registerUser = async (userData) => {
+    try {
+      await axios.post("https://localhost:7072/api/Auth/register", userData, {
         headers: { "Content-Type": "application/json" },
       });
 
-
-      setUsers((prevUsers) => [...prevUsers, response.data]);
-      return { success: true, user: response.data };
+      return { success: true };
     } catch (error) {
-      console.error("Error registering user:", error);
-      return { success: false, error: "An error occurred during registration" };
+      return {
+        success: false,
+        error: error.response?.data?.message || "Registration failed",
+      };
     }
   };
 
-
-  const loginUser = async (email, password) => {
-    if (loading) {
-      return { success: false, error: "Users are still loading, please try again later." };
-    }
-    const res = await axios.get(`http://localhost:5000/users?email=${email}`)
-    const filterusers = res.data[0]
-    if (filterusers.isBlocked) {
-      alert("Blocked")
-      return
-    }
-    const user = filterusers.password === password;
-    if (user) {
-
-      setIsAuthenticated(true);
-      setCurrentUser({ id: filterusers.id, name: filterusers.name, email: filterusers.email });
-      localStorage.setItem("isAuthenticated", true);
-      localStorage.setItem("user", JSON.stringify({ id: filterusers.id, name: filterusers.name, email: filterusers.email }));
-      return { success: true, user: { id: filterusers.id, name: filterusers.name, email: filterusers.email } };
-    } else {
-      return { success: false, error: "Invalid email or password" };
-    }
-  };
   const logoutUser = () => {
-    setIsAuthenticated(false);
-    setCurrentUser(null);
-    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setToken(null);
+    setCurrentUser(null);
+    setIsAuthenticated(false);
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <UserContext.Provider
       value={{
-        users,
-        setUsers,
         isAuthenticated,
         currentUser,
-        registerUser,
         loginUser,
+        registerUser,
         logoutUser,
+        token,
       }}
     >
       {children}

@@ -1,162 +1,4 @@
 {
-  "myAdmin": [
-    {
-      "id": "1",
-      "email": "admin@example.com",
-      "password": "admin123",
-      "role": "admin"
-    }
-  ],
-  "users": [
-    {
-      "id": "e0df",
-      "name": "abin prasanth",
-      "email": "abinprasanth777@gmail.com",
-      "password": "1234",
-      "confirmPassword": "1234",
-      "isBlocked": false,
-      "cart": [
-        {
-          "id": "5",
-          "category": "women",
-          "name": "Women's Sneakers",
-          "image": "/women's/women's sneakers (2).jpg",
-          "description": " Comfortable and stylish for athletic activities, casual wear",
-          "primeColor": "pink",
-          "sizes": [
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "price": 2000,
-          "selectedSize": "7",
-          "quantity": 1
-        },
-        {
-          "id": "6",
-          "category": "men",
-          "name": "Men's Ankle Boots",
-          "image": "/men's/men's ankle boots.jpg",
-          "description": " Short boots, trendy and comfortable",
-          "primeColor": "black",
-          "sizes": [
-            "6",
-            "7",
-            "8",
-            "9"
-          ],
-          "price": 2000,
-          "selectedSize": "8",
-          "quantity": 1
-        }
-      ],
-      "orders": [
-        {
-          "orderNumber": "ORD-1745830979093-682",
-          "userInfo": {
-            "name": "abin prasanth",
-            "email": "abinprasanth777@gmail.com"
-          },
-          "deliveryAddress": "fghjkl",
-          "cartItems": [
-            {
-              "id": "2",
-              "category": "men",
-              "name": "Men's Sneakers",
-              "image": "/men's/men's sneakers (2).jpg",
-              "description": " Comfortable and stylish casual wear",
-              "primeColor": "black",
-              "sizes": [
-                "6",
-                "7",
-                "8",
-                "9"
-              ],
-              "price": 2000,
-              "selectedSize": "6",
-              "quantity": 1
-            },
-            {
-              "id": "1",
-              "category": "men",
-              "name": "Men's Premium Sneakers",
-              "image": "/men's/men's premium sneakers.jpg",
-              "description": "premium sneakers running and casual wear",
-              "primeColor": "black",
-              "sizes": [
-                "6",
-                "7",
-                "8"
-              ],
-              "price": 2000,
-              "selectedSize": "7",
-              "quantity": 1
-            },
-            {
-              "id": "6",
-              "category": "men",
-              "name": "Men's Ankle Boots",
-              "image": "/men's/men's ankle boots.jpg",
-              "description": " Short boots, trendy and comfortable",
-              "primeColor": "black",
-              "sizes": [
-                "6",
-                "7",
-                "8",
-                "9"
-              ],
-              "price": 2000,
-              "selectedSize": "7",
-              "quantity": 1
-            }
-          ],
-          "totalPrice": 6000,
-          "orderDate": "2025-04-28T09:02:59.093Z"
-        }
-      ]
-    },
-    {
-      "id": "fe4b",
-      "name": "abin prasanth",
-      "email": "admin@example.com",
-      "password": "abin",
-      "confirmPassword": "abin",
-      "isBlocked": false,
-      "cart": [],
-      "orders": [
-        {
-          "orderNumber": "ORD-1747331629182-143",
-          "userInfo": {
-            "name": "abin prasanth",
-            "email": "admin@example.com"
-          },
-          "deliveryAddress": "sdfwefwef",
-          "cartItems": [
-            {
-              "id": "6",
-              "category": "men",
-              "name": "Men's Ankle Boots",
-              "image": "/men's/men's ankle boots.jpg",
-              "description": " Short boots, trendy and comfortable",
-              "primeColor": "black",
-              "sizes": [
-                "6",
-                "7",
-                "8",
-                "9"
-              ],
-              "price": 2000,
-              "selectedSize": "7",
-              "quantity": 1
-            }
-          ],
-          "totalPrice": 2000,
-          "orderDate": "2025-05-15T17:53:49.182Z"
-        }
-      ]
-    }
-  ],
   "products": [
     {
       "id": "1",
@@ -177,7 +19,7 @@
       "category": "men",
       "name": "Men's Sneakers",
       "image": "/men's/men's sneakers (2).jpg",
-      "description": " Comfortable and stylish casual wear",
+      "description": "Comfortable and stylish casual wear",
       "primeColor": "black",
       "sizes": [
         "6",
@@ -268,7 +110,7 @@
       "name": "Women's Ankle Boots",
       "image": "/women's/women's ankle boots.jpg",
       "description": " long heel boots, trendy and comfortable",
-      "primeColor": "black,gold",
+      "primeColor": "black and gold",
       "sizes": [
         "6",
         "7",
@@ -358,7 +200,7 @@
       "name": "Women's Sneakers",
       "image": "/women's/women's sneakers (3).jpg",
       "description": "Comfortable and stylish for athletic activities, casual wear",
-      "primeColor": "black,gold",
+      "primeColor": "black and gold",
       "sizes": [
         "6",
         "7",
@@ -508,7 +350,7 @@
       "name": "Men's Casual",
       "image": "/men's/men's casual (4).jpg",
       "description": "Everyday shoes, easy and versatile",
-      "primeColor": "white",
+      "primeColor": "skyblue",
       "sizes": [
         "6",
         "7",

@@ -23,8 +23,10 @@ import AdminUserManagement from "./components4/AdminUserManagement";
 import AdminSettings from "./components4/AdminSettings";
 import PrivateRoute from "./components4/PrivateRoute";
 import AllOrders from "./components4/AllOrders";
-import { ToastContainer } from 'react-toastify'; // Import ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
+import WishList from "./components3/WishList";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const LayoutWithNavbar = () => (
   <div className="flex flex-col min-min-h-screen">
@@ -47,7 +49,7 @@ function App() {
     <UserProvider>
       <CartProvider>
         <Router>
-          <ToastContainer />
+        <ToastContainer position="top-right" />
 
           <Routes>
             <Route element={<LayoutWithNavbar />}>
@@ -62,6 +64,7 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/search/:query" element={<SearchPage />} />
               <Route path="/productpage/:productId" element={<ProductPage />} />
+              <Route path="/wishlist" element={<WishList/>}/>
             </Route>
 
             <Route element={<LayoutWithoutNavbar />}>

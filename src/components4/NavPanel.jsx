@@ -1,35 +1,43 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const NavPanel = ({ children }) => {
+  const location = useLocation();
 
   const logoutAdmin = () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (!confirmed) return;
     localStorage.removeItem("loggedInUser");
   };
 
-  return (
-    <div className="flex h-full  ">
+  const navItems = [
+    { path: "/admindashboard", label: "Dashboard" },
+    { path: "/adminproductsmanagement", label: "Products Management" },
+    { path: "/adminusermanagement", label: "Users Management" },
+    { path: "/adminsettings", label: "Admin Settings" },
+    { path: "/allorders", label: "Orders" },
+    { path: "/", label: "Logout", logout: true },
+  ];
 
+  return (
+    <div className="flex h-full">
       <div className="w-1/5 bg-gray-800 text-white p-4 fixed max-h-screen min-h-screen">
         <ul className="space-y-10 mt-20">
-          <li>
-            <Link to="/admindashboard" className="text-white hover:text-gray-400">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/adminproductsmanagement" className="text-white hover:text-gray-400">Products</Link>
-          </li>
-          <li>
-            <Link to="/adminusermanagement" className="text-white hover:text-gray-400">User Management</Link>
-          </li>
-          <li>
-            <Link  to="/adminsettings" className="text-white hover:text-gray-400">Admin settings</Link>
-          </li>
-          <li>
-            <Link  to="/allorders" className="text-white hover:text-gray-400">Orders</Link>
-          </li>
-          <li>
-            <Link  to="/" onClick={logoutAdmin} className="text-white hover:text-gray-400">Logout</Link>
-          </li>
+          {navItems.map((item, index) => (
+            <li key={index}>
+              <Link
+                to={item.path}
+                onClick={item.logout ? logoutAdmin : undefined}
+                className={`block px-2 py-1 rounded transition duration-200 ${
+                  location.pathname === item.path
+                    ? "bg-gray-700 text-blue-400 font-semibold"
+                    : "text-white hover:text-gray-400"
+                }`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
 

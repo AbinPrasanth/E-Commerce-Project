@@ -3,35 +3,31 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const OrderHistory = () => {
-  const [userDetails, setUserDetails] = useState(null);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUserDetails(parsedUser);
+    const token = localStorage.getItem("token");
 
-      // Fetch the user from the database
-      axios
-        .get(`http://localhost:5000/users/${parsedUser.id}`)
-        .then((response) => {
-          setOrders(response.data.orders || []);
-        })
-        .catch((error) => {
-          console.error("Error fetching user orders:", error);
-        });
-    } else {
+    if (!token) {
       navigate("/login");
+      return;
     }
-  }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUserDetails(null);
-    navigate("/login");
-  };
+    // Fetch orders for the authenticated user
+    axios.get("https://localhost:7072/api/OrderDetails/user", {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then((response) => {
+        setOrders(response.data.data || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching order history:", error);
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+        }
+      });
+  }, [navigate]);
 
   return (
     <div className="p-20">
@@ -40,20 +36,27 @@ const OrderHistory = () => {
       {orders.length > 0 ? (
         <ul>
           {orders.map((order) => (
-            
-            <li key={order.orderNumber} className="mb-4 border p-4 rounded-lg shadow shadow-yellow-300">
-              <h1><strong>Date:</strong> {new Date(order.orderDate).toLocaleString()}</h1>
-              <div className="font-semibold">Order ID: {order.orderNumber}</div>
-              <div>Total: ₹{order.totalPrice}</div>
+            <li
+              key={order.orderNumber}
+              className="mb-4 border p-4 rounded-lg shadow shadow-yellow-300"
+            >
+              <h1>
+                <strong>Date:</strong>
+                {(order.createdAt).toLocaleString()}
+              </h1>
+              <div className="font-semibold">Order ID: {order.id}</div>
+              <div>Total: ₹{order.totalAmount}</div>
               <div>Delivery Address: {order.deliveryAddress}</div>
+              <div>Contact number: {order.contactNumber}</div>
+
 
               <div className="mt-2">
                 <h3 className="font-semibold">Items:</h3>
                 <ul>
-                  {order.cartItems.map((item, index) => (
+                  {order.items.map((item, index) => (
                     <li key={index} className="flex justify-between">
                       <span>
-                        {item.name} (x{item.quantity})
+                        {item.productName} (x{item.quantity})
                       </span>
                       <span>₹{item.price * item.quantity}</span>
                     </li>
